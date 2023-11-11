@@ -48,7 +48,9 @@ do{
         else {
           printf( "New file %s created.\n", event->name );
           char* hash = call_test([event->name]));
+          call_curl(hash);
 
+          //todo de introdus interpretare si delete la fisier
         }
       }
       else if ( event->mask & IN_DELETE ) {
