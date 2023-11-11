@@ -1,14 +1,16 @@
 #include "sha-256.h"
 #include <stdio.h>
+#include <stdlib.h>
 
-char* call_test(char * argv[])
+char* call_test(char * argv, char * result)
 {
 	FILE * f = NULL;
 	unsigned int i = 0;
 	unsigned int j = 0;
 	char buf[4096];
 	uint8_t sha256sum[32];
-	if( ! ( f = fopen( argv[1], "rb" ) ) )
+	printf("sunt in test \n");
+	if( ! ( f = fopen( argv, "rb" ) ) )
         {
             perror( "fopen" );
             return( "1" );
@@ -24,10 +26,14 @@ char* call_test(char * argv[])
 
         sha256_finish( &ctx, sha256sum );
 
+        
+        unsigned char *str_to_ret = malloc (sizeof (unsigned char) * 1000);
+        
         for( j = 0; j < 32; j++ )
         {
-            printf( "%02x", sha256sum[j] );
+           str_to_ret[j] = sha256sum[j];
+            
         }
 
-        return argv[1];
+        return str_to_ret;
 }

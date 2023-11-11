@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <curl/curl.h>
-
+#include <string.h>
 
 
 size_t write_callback(char *ptr, size_t size, size_t nmemb, void *userdata)
@@ -24,11 +24,15 @@ int call_curl(char* hash)
 
     curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "GET");
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, stdout);
-    curl_easy_setopt(curl, CURLOPT_URL, "https://www.virustotal.com/api/v3/files/"+hash);
-
+    char endpoint [1000] = "https://www.virustotal.com/api/v3/files/";
+    strcat (endpoint,hash);
+    curl_easy_setopt(curl, CURLOPT_URL, endpoint);
+	
+    printf("%s \n",endpoint);	
+	
     struct curl_slist *headers = NULL;
     headers = curl_slist_append(headers, "accept: application/json");
-    headers = curl_slist_append(headers, "x:apikey: "71eafebbcd8e82c002e4b527ae523f3fabcbf129058d8b5b38499840f1e5aa4c"");
+    headers = curl_slist_append(headers, "x-apikey: 71eafebbcd8e82c002e4b527ae523f3fabcbf129058d8b5b38499840f1e5aa4c");
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
     f = fopen("tmp.txt", "w+");
